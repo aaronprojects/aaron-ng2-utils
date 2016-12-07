@@ -9,7 +9,7 @@
         "declaration": true
     },
     "files": [
-        "aaron2-utils.ts"
+        "aaron-ng2-utils.ts"
     ],
     "exclude": [
         "node_modules"
