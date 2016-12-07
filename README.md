@@ -14,7 +14,11 @@ Install the utils to your project
 * [Getting Started](#getting-started)
 * [Usage] (#usage)
     * [Pipes] (#pipes)
+        * [Search Pipe] (#search-pipe)
+        * [TimeAgo Pipe] (#timeago-pipe)
+        * [OrderBy Pipe] (#orderby-pipe)
 		* [Filter Pipe] (#filter-pipe)
+		* [Filter Pipe] (#AdvancedFilter-pipe)
 	* [Directives] (#directives)
 		* [Autocomplete] (#autocomplete)
 
@@ -25,7 +29,7 @@ Import the Components you want to use into your app.module.ts
 ```ts
 
 import {Search} from 'aaron-ng2-utils/aaron-ng2-utils';
-import {OrderByPipe} from 'aaron-ng2-utils/aaron-ng2-utils';
+import {OrderBy} from 'aaron-ng2-utils/aaron-ng2-utils';
 ...
 
 ```
@@ -35,11 +39,69 @@ import {OrderByPipe} from 'aaron-ng2-utils/aaron-ng2-utils';
 
 ## Pipes
 
+### TimeAgo Pipe
+
+```ts
+
+import {TimeAgoPipe} from 'aaron-ng2-utils/aaron-ng2-utils';
+
+```
+
+Just use the pipe within your html template on a Date Object like this.
+
+```xml
+
+{{item.date | timeAgo}}
+
+```
+
+### OrderBy Pipe
+
+Sorts the Elements within ngFor loop by the given Property and the given order.
+
+```ts
+
+import {OrderBy} from 'aaron-ng2-utils/aaron-ng2-utils';
+```
+
+```ts
+sortingOrder = '+';
+sortingProperty = 'name';
+```
+
+```xml
+<div *ngFor="let element of array | orderBy : sortingProperty : sortingOrder">
+```
+
+### Search Pipe
+
+```ts
+
+import {Search} from 'aaron-ng2-utils/aaron-ng2-utils';
+
+````
+
+```ts
+// Declare the search Value for the User
+searchVal = '';
+
+```
+
+```xml
+<!--Searching Input Field for the User-->
+<input id="search" [(ngModel)]="searchVal" type="search">
+
+<!--Use the pipe within the Loop-->
+<div *ngFor="let element of array | search : searchVal">
+```
+
 ### Filter Pipe
 
 ```ts
 
 import {Filter} from 'aaron-ng2-utils/aaron-ng2-utils';
+
+```
 
 ```ts
 
@@ -51,6 +113,29 @@ filterKey = "type";
 
 ```xml
 <div *ngFor="let element of array | filter : filterKey : filterAttributes">
+```
+
+### AdvancedFilter Pipe
+
+Assign some key/value pairs and filter all elements that doesn't match any of the given key/value pais
+
+```ts
+
+import {AdvancedFilter} from 'aaron-ng2-utils/aaron-ng2-utils';
+
+```ts
+
+//    Assign your key values pair here
+advancedFilter: any = [
+    { key: "name", value: "Müller" }
+];
+
+```
+
+```xml
+<!--And pass the list to your Loop-->
+<div *ngFor="let element of array | advancedFilter : advancedFilter">
+
 ```
 
 ## Directives
