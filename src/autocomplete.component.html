@@ -1,0 +1,14 @@
+<div class="input-field col {{col}}">
+    <i *ngIf="prefix != undefined" class="{{prefix}} prefix"></i>
+    <input type="text" class="validate filter-input" [attr.placeholder]="placeholder" [(ngModel)]=query [class.invalid]="check" (click)="filter()"(keydown)="onKey($event)"(keyup)=filter()>
+    <label [class.active]="errorInput" [attr.data-error]="errorLabel">{{label}}</label>
+    <ul class="autocomplete-content dropdown-content" *ngIf="filteredList.length != 0">
+        <li *ngFor="let item of filteredList; let i = index;">
+            <a (click)="select(item)" [class.hovered]="i == hover">
+                <span *ngFor="let element of showAttributes">
+                    {{item[element]}}
+                </span>
+            </a>
+        </li>
+    </ul>
+</div>
