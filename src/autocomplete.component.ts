@@ -1,11 +1,26 @@
-import { Component, Injectable, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import {Component, Injectable, ElementRef, Input, Output, EventEmitter} from '@angular/core';
 
 @Component({
     selector: 'autocomplete',
     host: {
         '(document:click)': 'handleClick($event)',
     },
-    templateUrl: './autocomplete.component.html'
+    template: `
+    <div class="input-field col {{col}}">
+    <i *ngIf="prefix != undefined" class="{{prefix}} prefix"></i>
+    <input type="text" class="validate filter-input" [attr.placeholder]="placeholder" [(ngModel)]=query [class.invalid]="check" (click)="filter()"(keydown)="onKey($event)"(keyup)=filter()>
+    <label [class.active]="errorInput" [attr.data-error]="errorLabel">{{label}}</label>
+    <ul class="autocomplete-content dropdown-content" *ngIf="filteredList.length != 0">
+        <li *ngFor="let item of filteredList; let i = index;">
+            <a (click)="select(item)" [class.hovered]="i == hover">
+                <span *ngFor="let element of showAttributes">
+                    {{item[element]}}
+                </span>
+            </a>
+        </li>
+    </ul>
+</div>
+    `
 })
 @Injectable()
 export class AutocompleteComponent {
@@ -48,9 +63,9 @@ export class AutocompleteComponent {
     }
 
     /** @function onKey
-     * 
+     *
      * @event {event} Event Item for the User Input
-     * 
+     *
      * Handles User Interaction with the keyboard and enables the selection
      * with Arrow Keys and Enter
      * */
@@ -75,12 +90,12 @@ export class AutocompleteComponent {
     }
 
     /** @function filter
-     * 
+     *
      * Filters all Elements that doesn't contain the query
      * */
     filter() {
         var tempList = this.itemList.slice(0);
-        this.filteredList = tempList.filter(function(el: any) {
+        this.filteredList = tempList.filter(function (el: any) {
             return this.checkforString(el, this.query);
         }.bind(this));
 
@@ -90,9 +105,9 @@ export class AutocompleteComponent {
     }
 
     /** @function select
-     * 
+     *
      * @item {any} the Clicked Item
-     * 
+     *
      * Select Method for one of the Sugestions
      * */
     select(item: any) {
@@ -106,14 +121,14 @@ export class AutocompleteComponent {
 
         this.query = value;
         this.filteredList = [];
-        
+
         this.selected.emit(item);
     }
 
     /** @function handleClick
-     * 
+     *
      * @event {any} the Click Event
-     * 
+     *
      * ClickEvent Handler for the Suggestions
      * */
     handleClick(event: any) {
@@ -130,11 +145,11 @@ export class AutocompleteComponent {
         }
     }
 
-    /** @function checkforString 
-     * 
+    /** @function checkforString
+     *
      * @input {any} an Object that contains certain strings
      * @searchVal {string} the string this function has to look for
-     * 
+     *
      * Looks up a string input in an Object.
      * Returns true if the Object contains the given String
      * */
@@ -153,7 +168,9 @@ export class AutocompleteComponent {
 
         // Init Bool Array for each Element in the searchVal Input
         var valFound = new Array(quantity);
-        for (var i = 0; i < valFound.length; ++i) { valFound[i] = false; }
+        for (var i = 0; i < valFound.length; ++i) {
+            valFound[i] = false;
+        }
 
         for (var index in vals) {
             for (var key in input) {
