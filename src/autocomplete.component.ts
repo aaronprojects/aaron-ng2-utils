@@ -94,13 +94,15 @@ export class AutocompleteComponent {
      * Filters all Elements that doesn't contain the query
      * */
     filter() {
-        var tempList = this.itemList.slice(0);
-        this.filteredList = tempList.filter(function (el: any) {
-            return this.checkforString(el, this.query);
-        }.bind(this));
+        // Catch undefined Input
+        if(this.itemList != undefined) {
+            var tempList = this.itemList.slice(0);
+            this.filteredList = tempList.filter(function (el: any) {
+                return this.checkforString(el, this.query);
+            }.bind(this));
+        }
 
         this.foundElements = 0;
-
         this.error.emit(this.query);
     }
 
